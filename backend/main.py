@@ -14,10 +14,15 @@ os.makedirs(OUTPUTS_DIR, exist_ok=True)
 
 app = FastAPI(title="Pano — Panorama Stitching API", version="1.0.0")
 
-# CORS — allow the Next.js dev server
+# CORS — allow the Next.js dev server and production frontend
+frontend_url = os.environ.get("FRONTEND_URL")
+origins = ["http://localhost:3000"]
+if frontend_url:
+    origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
