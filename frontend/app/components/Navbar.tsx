@@ -11,7 +11,7 @@ export default function Navbar() {
 
       <nav className="hidden md:flex items-center gap-10 text-sm font-medium text-white/50">
         <a href="/pipeline" className="hover:text-white transition-colors duration-300">Pipeline</a>
-        <a href="/pipeline" className="hover:text-white transition-colors duration-300">Algorithms</a>
+        <a href="/splitter" className="hover:text-white transition-colors duration-300">Splitter</a>
         <a href="#" className="hover:text-white transition-colors duration-300">About</a>
       </nav>
 

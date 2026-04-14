@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from routers.stitch import router as stitch_router
+from routers.splitter import router as splitter_router
 
 # Output directory for generated images
 OUTPUTS_DIR = os.path.join(os.path.dirname(__file__), "outputs")
@@ -26,6 +27,7 @@ app.mount("/outputs", StaticFiles(directory=OUTPUTS_DIR), name="outputs")
 
 # Register API routes
 app.include_router(stitch_router, prefix="/api/stitch", tags=["stitch"])
+app.include_router(splitter_router, prefix="/api/splitter", tags=["splitter"])
 
 
 @app.get("/health")

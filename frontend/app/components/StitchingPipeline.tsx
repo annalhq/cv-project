@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   UploadZone,
   StepCard,
@@ -20,6 +21,7 @@ export default function StitchingPipeline() {
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [modalImage, setModalImage] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   const {
     steps,
@@ -34,6 +36,41 @@ export default function StitchingPipeline() {
     resetResults,
     setError,
   } = useStitchingPipeline();
+
+  // -- Load chunks from splitter (sessionStorage) --
+
+  useEffect(() => {
+    if (searchParams.get("from") !== "splitter") return;
+
+    const raw = sessionStorage.getItem("splitter_chunks");
+    if (!raw) return;
+
+    try {
+      const items: { name: string; url: string }[] = JSON.parse(raw);
+      sessionStorage.removeItem("splitter_chunks");
+
+      // Fetch each chunk image from the backend and convert to File
+      Promise.all(
+        items.map(async (item) => {
+          const res = await fetch(item.url);
+          const blob = await res.blob();
+          const file = new File([blob], item.name, { type: blob.type || "image/png" });
+
+          return new Promise<{ file: File; preview: string }>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) =>
+              resolve({ file, preview: e.target?.result as string });
+            reader.readAsDataURL(blob);
+          });
+        })
+      ).then((results) => {
+        setFiles(results.map((r) => r.file));
+        setPreviews(results.map((r) => r.preview));
+      });
+    } catch {
+      /* ignore parse errors */
+    }
+  }, [searchParams]);
 
   // -- File handlers --
 
