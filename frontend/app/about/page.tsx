@@ -16,7 +16,7 @@ const developerContributions = [
   },
   {
     name: "Atharva Kulkarni",
-    role: "A38",
+    role: "A27",
     contribution:
       "Built the interactive UI flow for splitter and pipeline tools with clear step-by-step feedback.",
   },
