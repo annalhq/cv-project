@@ -66,7 +66,7 @@ export default function SplitterResults({
                 <img
                   src={chunk.dataUrl}
                   alt={`Chunk ${i + 1}`}
-                  className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                  className="w-full h-32 md:h-40 object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                 />
                 {/* Overlay badge */}
                 <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm text-white/80 text-xs px-2 py-1 rounded-lg font-mono">
@@ -105,7 +105,7 @@ export default function SplitterResults({
             {/* Download all */}
             <button
               onClick={onDownloadAll}
-              className="btn bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-full px-8 transition-all duration-300"
+              className="btn bg-base-200 hover:bg-base-300 border-2 border-white/20 text-white rounded-xl px-8 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:translate-x-1 active:shadow-[0px_0px_0px_0px_rgba(255,255,255,0.1)] transition-all duration-200"
             >
               <svg
                 className="w-5 h-5 mr-2"
@@ -126,7 +126,7 @@ export default function SplitterResults({
             {/* Send to stitcher */}
             <button
               onClick={onSendToStitcher}
-              className="btn bg-orange-600 hover:bg-orange-700 border-none text-white rounded-full px-8 shadow-[0_0_30px_rgba(234,88,12,0.25)] hover:shadow-[0_0_50px_rgba(234,88,12,0.4)] transition-all duration-500"
+              className="btn bg-orange-500 hover:bg-orange-400 border-2 border-orange-700 text-white rounded-xl px-8 shadow-[4px_4px_0px_0px_rgba(234,88,12,0.5)] hover:shadow-[6px_6px_0px_0px_rgba(234,88,12,0.7)] hover:-translate-y-0.5 active:translate-y-1 active:translate-x-1 active:shadow-[0px_0px_0px_0px_rgba(234,88,12,0.7)] transition-all duration-200"
             >
               <svg
                 className="w-5 h-5 mr-2"

@@ -57,7 +57,7 @@ export default function StepCard({ step, onImageClick }: StepCardProps) {
               <img
                 src={imgUrl}
                 alt={`${step.name} output ${i + 1}`}
-                className="w-full h-auto object-contain"
+                className="w-full h-56 lg:h-64 object-contain bg-black/40"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">

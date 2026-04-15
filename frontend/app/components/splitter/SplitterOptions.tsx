@@ -200,7 +200,7 @@ export default function SplitterOptions({
           <button
             onClick={onSplit}
             disabled={loading}
-            className="btn btn-lg bg-orange-600 hover:bg-orange-700 border-none text-white rounded-full px-12 shadow-[0_0_40px_rgba(234,88,12,0.3)] hover:shadow-[0_0_60px_rgba(234,88,12,0.5)] transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn btn-lg bg-orange-500 hover:bg-orange-400 border-2 border-orange-700 text-white rounded-xl px-12 shadow-[4px_4px_0px_0px_rgba(234,88,12,0.5)] hover:shadow-[6px_6px_0px_0px_rgba(234,88,12,0.7)] hover:-translate-y-0.5 active:translate-y-1 active:translate-x-1 active:shadow-[0px_0px_0px_0px_rgba(234,88,12,0.7)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
