@@ -1,5 +1,7 @@
 "use client";
 
+import { Columns2, Rows2, ChevronDown, Settings } from "lucide-react";
+
 export interface SplitConfig {
   chunks: number;
   direction: "vertical" | "horizontal";
@@ -21,87 +23,153 @@ export default function SplitterOptions({
   loading,
   hasFile,
 }: SplitterOptionsProps) {
+  const directionOptions: {
+    value: "vertical" | "horizontal";
+    label: string;
+    sublabel: string;
+    icon: React.ReactNode;
+  }[] = [
+    {
+      value: "vertical",
+      label: "Vertical",
+      sublabel: "Slices image into columns",
+      icon: <Columns2 className="w-4 h-4" />,
+    },
+    {
+      value: "horizontal",
+      label: "Horizontal",
+      sublabel: "Slices image into rows",
+      icon: <Rows2 className="w-4 h-4" />,
+    },
+  ];
+
+  const selected = directionOptions.find((o) => o.value === config.direction)!;
+
   return (
     <div className="mb-10">
       <div className="border border-white/10 rounded-2xl bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden">
         {/* Section header */}
         <div className="px-6 py-4 border-b border-white/5">
           <h3 className="text-lg font-medium text-white flex items-center gap-2">
-            <svg
-              className="w-5 h-5 text-orange-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
+            <Settings className="w-5 h-5 text-orange-500" strokeWidth={1.5} />
             Split Configuration
           </h3>
         </div>
 
         <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Number of chunks */}
+          {/* Number of chunks — stepper input */}
           <div className="form-control w-full">
             <label className="label" htmlFor="splitter-chunks">
               <span className="label-text text-white/50 text-sm">
                 Number of Chunks
               </span>
             </label>
-            <input
-              id="splitter-chunks"
-              type="number"
-              min={2}
-              max={20}
-              value={config.chunks}
-              onChange={(e) =>
-                onChange({
-                  ...config,
-                  chunks: Math.max(2, Math.min(20, parseInt(e.target.value) || 2)),
-                })
-              }
-              className="input input-bordered w-full bg-white/5 border-white/10 text-white focus:border-orange-500/50 focus:outline-none placeholder-white/20"
-            />
+            <div className="flex items-center gap-0 rounded-xl overflow-hidden border border-white/10 bg-white/5 focus-within:border-orange-500/50 transition-colors">
+              <button
+                type="button"
+                aria-label="Decrease chunks"
+                onClick={() =>
+                  onChange({
+                    ...config,
+                    chunks: Math.max(2, config.chunks - 1),
+                  })
+                }
+                className="px-3 py-2 text-white/50 hover:text-orange-400 hover:bg-white/5 transition-colors text-lg font-bold select-none"
+              >
+                −
+              </button>
+              <input
+                id="splitter-chunks"
+                type="number"
+                min={2}
+                max={20}
+                value={config.chunks}
+                onChange={(e) =>
+                  onChange({
+                    ...config,
+                    chunks: Math.max(
+                      2,
+                      Math.min(20, parseInt(e.target.value) || 2),
+                    ),
+                  })
+                }
+                className="w-full bg-transparent text-white text-center focus:outline-none py-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none font-mono"
+              />
+              <button
+                type="button"
+                aria-label="Increase chunks"
+                onClick={() =>
+                  onChange({
+                    ...config,
+                    chunks: Math.min(20, config.chunks + 1),
+                  })
+                }
+                className="px-3 py-2 text-white/50 hover:text-orange-400 hover:bg-white/5 transition-colors text-lg font-bold select-none"
+              >
+                +
+              </button>
+            </div>
             <label className="label">
-              <span className="label-text-alt text-white/25">Between 2 – 20</span>
+              <span className="label-text-alt text-white/25">
+                Between 2 – 20
+              </span>
             </label>
           </div>
 
-          {/* Direction */}
+          {/* Direction — DaisyUI dropdown */}
           <div className="form-control w-full">
-            <label className="label" htmlFor="splitter-direction">
+            <label className="label">
               <span className="label-text text-white/50 text-sm">
                 Split Direction
               </span>
             </label>
-            <select
-              id="splitter-direction"
-              value={config.direction}
-              onChange={(e) =>
-                onChange({
-                  ...config,
-                  direction: e.target.value as "vertical" | "horizontal",
-                })
-              }
-              className="select select-bordered w-full bg-white/5 border-white/10 text-white focus:border-orange-500/50 focus:outline-none"
-            >
-              <option value="vertical" className="bg-neutral text-white">
-                Vertical (left → right)
-              </option>
-              <option value="horizontal" className="bg-neutral text-white">
-                Horizontal (top → bottom)
-              </option>
-            </select>
+            <details className="dropdown w-full">
+              <summary className="flex items-center justify-between gap-2 w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white cursor-pointer hover:border-orange-500/40 transition-colors list-none [&::-webkit-details-marker]:hidden focus:outline-none focus:border-orange-500/50">
+                <span className="flex items-center gap-2 text-sm">
+                  <span className="text-orange-400">{selected.icon}</span>
+                  <span>{selected.label}</span>
+                  <span className="text-white/30">·</span>
+                  <span className="text-white/40 text-xs">
+                    {selected.sublabel}
+                  </span>
+                </span>
+                <ChevronDown className="w-4 h-4 text-white/30 flex-shrink-0" />
+              </summary>
+              <ul className="menu dropdown-content bg-neutral border border-white/10 rounded-xl z-10 w-full p-1.5 shadow-xl mt-1">
+                {directionOptions.map((opt) => (
+                  <li key={opt.value}>
+                    <a
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
+                        config.direction === opt.value
+                          ? "bg-orange-500/20 text-orange-400"
+                          : "text-white/70 hover:bg-white/5 hover:text-white"
+                      }`}
+                      onClick={() => {
+                        onChange({ ...config, direction: opt.value });
+                        // close the details element
+                        (document.activeElement as HTMLElement)?.blur();
+                      }}
+                    >
+                      <span
+                        className={
+                          config.direction === opt.value
+                            ? "text-orange-400"
+                            : "text-white/40"
+                        }
+                      >
+                        {opt.icon}
+                      </span>
+                      <span className="flex flex-col">
+                        <span className="text-sm font-medium">{opt.label}</span>
+                        <span className="text-xs text-white/30">
+                          {opt.sublabel}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
             <label className="label">
               <span className="label-text-alt text-white/25">
                 {config.direction === "vertical"
@@ -111,7 +179,7 @@ export default function SplitterOptions({
             </label>
           </div>
 
-          {/* Overlap ratio */}
+          {/* Overlap ratio — unchanged */}
           <div className="form-control w-full">
             <label className="label" htmlFor="splitter-overlap">
               <span className="label-text text-white/50 text-sm">
@@ -151,13 +219,15 @@ export default function SplitterOptions({
             <div className="flex-shrink-0">
               {config.direction === "vertical" ? (
                 <div className="flex gap-0.5">
-                  {Array.from({ length: Math.min(config.chunks, 6) }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-10 bg-orange-500/30 border border-orange-500/50 rounded-sm"
-                      style={{ opacity: 0.4 + (i / config.chunks) * 0.6 }}
-                    />
-                  ))}
+                  {Array.from({ length: Math.min(config.chunks, 6) }).map(
+                    (_, i) => (
+                      <div
+                        key={i}
+                        className="w-4 h-10 bg-orange-500/30 border border-orange-500/50 rounded-sm"
+                        style={{ opacity: 0.4 + (i / config.chunks) * 0.6 }}
+                      />
+                    ),
+                  )}
                   {config.chunks > 6 && (
                     <span className="text-white/30 text-xs self-center ml-1">
                       +{config.chunks - 6}
@@ -166,13 +236,15 @@ export default function SplitterOptions({
                 </div>
               ) : (
                 <div className="flex flex-col gap-0.5">
-                  {Array.from({ length: Math.min(config.chunks, 6) }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-14 h-3 bg-orange-500/30 border border-orange-500/50 rounded-sm"
-                      style={{ opacity: 0.4 + (i / config.chunks) * 0.6 }}
-                    />
-                  ))}
+                  {Array.from({ length: Math.min(config.chunks, 6) }).map(
+                    (_, i) => (
+                      <div
+                        key={i}
+                        className="w-14 h-3 bg-orange-500/30 border border-orange-500/50 rounded-sm"
+                        style={{ opacity: 0.4 + (i / config.chunks) * 0.6 }}
+                      />
+                    ),
+                  )}
                   {config.chunks > 6 && (
                     <span className="text-white/30 text-xs text-center mt-0.5">
                       +{config.chunks - 6}
@@ -183,7 +255,9 @@ export default function SplitterOptions({
             </div>
             <p className="text-white/30 text-sm">
               Image will be split into{" "}
-              <span className="text-orange-400 font-medium">{config.chunks}</span>{" "}
+              <span className="text-orange-400 font-medium">
+                {config.chunks}
+              </span>{" "}
               {config.direction === "vertical" ? "columns" : "rows"} with{" "}
               <span className="text-orange-400 font-medium">
                 {Math.round(config.overlapRatio * 100)}%
