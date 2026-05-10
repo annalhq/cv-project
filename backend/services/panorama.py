@@ -18,7 +18,7 @@ from services.image_utils import save_image
 
 # -- Step helpers yielded as dicts for SSE streaming --
 
-StepDict = dict  # shorthand
+StepDict = dict 
 
 
 # ── Harris Corner Detection ─────────────────────────────────────────

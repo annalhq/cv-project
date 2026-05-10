@@ -7,19 +7,7 @@ const developerContributions = [
     role: "A13",
     contribution:
       "Designed the end-to-end stitching flow, from upload orchestration to final panorama output handling, along with SIFT keypoint extraction and matching logic.",
-  },
-  {
-    name: "Aryan Nakil",
-    role: "A23",
-    contribution:
-      "Implemented keypoint extraction and robust correspondence filtering to improve alignment quality.",
-  },
-  {
-    name: "Atharva Kulkarni",
-    role: "A27",
-    contribution:
-      "Built the interactive UI flow for splitter and pipeline tools with clear step-by-step feedback.",
-  },
+  }
 ];
 
 const algorithmsUsed = [
